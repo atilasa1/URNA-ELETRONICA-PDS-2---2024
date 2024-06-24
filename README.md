@@ -84,5 +84,9 @@ Este software requer um compilador C++ compatível com C++11 ou superior.
 ## Contribuições
 
 O grupo é composto por:
-
+Ana Luiza Magela da Silva
+Átila Santos ALbuquerque
+Júlia Polito Braga
+Lara Felipe de Oliveira
+Saulo Junio Pereira da Costa
 
