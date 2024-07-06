@@ -16,14 +16,26 @@ TARGET = run.out
 SRC = $(wildcard $(SRC_FOLDER)*.cpp)
 OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
 
-$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
+# Ensure directories exist
+$(OBJ_FOLDER):
+	@mkdir -p $(OBJ_FOLDER)
+
+$(BIN_FOLDER):
+	@mkdir -p $(BIN_FOLDER)
+
+# Rule to compile source files into object files
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp | $(OBJ_FOLDER)
 	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
-all: $(OBJ)
-	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)  copy_data_file
+# Rule to link object files into the final executable
+all: $(OBJ) | $(BIN_FOLDER)
+	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)
+	$(MAKE) copy_data_file
 
+# Clean rule
 clean:
 	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
 
+# Rule to copy the data file
 copy_data_file:
-	cp ${DATE_FILE} ${BIN_FOLDER}/${DATE_FILE}
+	copy $(DATE_FILE) $(BIN_FOLDER)$(DATE_FILE)
